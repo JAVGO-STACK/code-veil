@@ -1,8 +1,15 @@
 import React from "react";
 import CodeBlock from "@/components/custom/CodeBlock";
 import { CustomTableComponents } from "@/components/custom/Table";
+import UnorderedList from "@/components/custom/UnorderedList";
+import OrderedList from "@/components/custom/OrderedList";
+import ListItem from "@/components/custom/ListItem";
 
-const Pre = (props: any) => {
+interface PreProps {
+    children: React.ReactNode;
+}
+
+const Pre = (props: PreProps) => {
     const { children } = props;
     const child = React.Children.only(children);
 
@@ -26,4 +33,7 @@ export const components: Record<string, React.ComponentType<any>> = {
     tr: CustomTableComponents.tr,
     th: CustomTableComponents.th,
     td: CustomTableComponents.td,
+    ul: UnorderedList,
+    ol: OrderedList,
+    li: ListItem,
 }
