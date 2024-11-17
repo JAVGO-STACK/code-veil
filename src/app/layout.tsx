@@ -1,6 +1,7 @@
 // 首页布局
 import { SidebarDemo } from "@/components/custom/Sidebar";
 import "./globals.css";
+import "prismjs/themes/prism-tomorrow.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { twMerge } from "tailwind-merge";
@@ -24,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="zh-CN">
       <body
         className={twMerge(
           inter.className,

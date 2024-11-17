@@ -1,15 +1,12 @@
 "use client";
 
 import React, { useReducer, ChangeEvent, FormEvent } from "react";
-import IconContact from "@/components/icon/IconContact";
 
-// Define the shape of each form field
 interface FormField {
     value: string;
     error: string;
 }
 
-// Define the entire form state
 interface FormState {
     name: FormField;
     email: FormField;
@@ -19,16 +16,18 @@ interface FormState {
     submitError: string | null;
 }
 
-// Define action types
-type Action =
-    | { type: "UPDATE_FIELD"; field: keyof FormState; value: string }
-    | { type: "SET_ERROR"; field: keyof FormState; error: string }
-    | { type: "SUBMIT_START" }
-    | { type: "SUBMIT_SUCCESS"; message: string }
-    | { type: "SUBMIT_ERROR"; error: string }
-    | { type: "RESET_FORM" };
+type FormFieldKey = {
+  [K in keyof FormState]: FormState[K] extends FormField ? K : never;
+}[keyof FormState];
 
-// Initial state for the form
+type Action =
+  | { type: "UPDATE_FIELD"; field: FormFieldKey; value: string }
+  | { type: "SET_ERROR"; field: FormFieldKey; error: string }
+  | { type: "SUBMIT_START" }
+  | { type: "SUBMIT_SUCCESS"; message: string }
+  | { type: "SUBMIT_ERROR"; error: string }
+  | { type: "RESET_FORM" };
+
 const initialState: FormState = {
     name: { value: "", error: "" },
     email: { value: "", error: "" },
@@ -38,7 +37,6 @@ const initialState: FormState = {
     submitError: null,
 };
 
-// Reducer function to manage form state
 const reducer = (state: FormState, action: Action): FormState => {
     switch (action.type) {
         case "UPDATE_FIELD":
@@ -64,7 +62,6 @@ const reducer = (state: FormState, action: Action): FormState => {
     }
 };
 
-// Reusable Input component
 const InputField: React.FC<{
     label: string;
     type: string;
@@ -119,14 +116,13 @@ const InputField: React.FC<{
 export const Contact: React.FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    // Handle input changes
     const handleChange = (field: keyof FormState) => (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-        dispatch({ type: "UPDATE_FIELD", field, value: e.target.value });
+        // @ts-ignore
+        dispatch({error: "", message: "", type: "UPDATE_FIELD", field, value: e.target.value });
     };
 
-    // Validate form fields
     const validate = (): boolean => {
         let isValid = true;
 
@@ -152,7 +148,6 @@ export const Contact: React.FC = () => {
         return isValid;
     };
 
-    // Handle form submission
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         if (!validate()) return;
@@ -160,7 +155,6 @@ export const Contact: React.FC = () => {
         dispatch({ type: "SUBMIT_START" });
 
         try {
-            // Simulate form submission (replace with actual API call)
             await new Promise((resolve) => setTimeout(resolve, 2000));
 
             console.log("Form Data:", {
@@ -180,7 +174,6 @@ export const Contact: React.FC = () => {
 
     return (
         <div className="w-full min-h-screen max-w-screen bg-white rounded-lg p-8">
-            {/* Header with Icon and Text */}
             <div className="flex items-center mb-6 justify-left">
                 <img
                     src="/images/site/gmail.png"

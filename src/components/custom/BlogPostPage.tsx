@@ -5,17 +5,26 @@ import { Blog } from "@/types/blog";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
+import { components } from "@/components/MDXComponents";
 import clsx from "clsx";
+
+interface Heading {
+  id: string;
+  text: string;
+  level: number;
+}
+
+interface BlogPostPageProps {
+  blog: Blog;
+  mdxSource: MDXRemoteSerializeResult;
+  headings: Heading[];
+}
 
 export default function BlogPostPage({
   blog,
   mdxSource,
   headings,
-}: {
-  blog: Blog;
-  mdxSource: MDXRemoteSerializeResult;
-  headings: { id: string; text: string; level: number }[];
-}) {
+}: BlogPostPageProps) {
 
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -57,7 +66,6 @@ export default function BlogPostPage({
 
   return (
     <div className="relative w-full">
-      {/* 返回按钮 */}
       <Link
         href="/blog"
         className="fixed top-20 left-25 flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition-transform transform hover:-translate-y-1 z-50"
@@ -65,20 +73,14 @@ export default function BlogPostPage({
       >
         <FiArrowLeft size={20} />
       </Link>
-
-      {/* 文章内容和 TOC 容器 */}
       <div className="flex w-full mx-auto py-10 px-4 md:px-8 lg:px-16">
-        {/* 文章内容 */}
         <div className="prose flex-1 max-w-none">
           <h1 className="mt-4">{blog.title}</h1>
           <p className="text-gray-600">{blog.description}</p>
-          <MDXRemote {...mdxSource} />
+          <MDXRemote {...mdxSource} components={components} />
         </div>
-
-        {/* TOC */}
         <div className="hidden lg:block fixed top-1/3 right-5 transform -translate-y-1/2 z-40">
           <div className="relative group">
-            {/* TOC 内容 */}
             <div
               className={clsx(
                 "absolute top-0 right-full mr-2 bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-xl max-w-xs w-64 max-h-[80vh] overflow-y-auto transition-all duration-300 ease-in-out",
@@ -109,7 +111,6 @@ export default function BlogPostPage({
                 ))}
               </ul>
             </div>
-            {/* TOC 触发器：8 个竖向小圆点 */}
             <div className="flex flex-col items-center space-y-2 cursor-pointer p-2">
               {[...Array(8)].map((_, index) => (
                 <div
