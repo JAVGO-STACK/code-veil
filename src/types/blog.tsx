@@ -1,10 +1,9 @@
 export type Blog = {
-  title: string;
-  description: string;
-  date: string;
   slug: string;
-  image: string;
+  filePath: string;
+  date?: string;
+  title: string;
+  description?: string;
+  image?: string;
   tags?: string[];
-  // rest
-  [key: string]: any;
 };
