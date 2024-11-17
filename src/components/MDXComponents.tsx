@@ -1,5 +1,6 @@
 import React from "react";
 import CodeBlock from "@/components/custom/CodeBlock";
+import { CustomTableComponents } from "@/components/custom/Table";
 
 const Pre = (props: any) => {
     const { children } = props;
@@ -19,4 +20,10 @@ const Pre = (props: any) => {
 
 export const components: Record<string, React.ComponentType<any>> = {
     pre: (props) => <Pre {...props} />,
+    table: CustomTableComponents.table,
+    thead: CustomTableComponents.thead,
+    tbody: CustomTableComponents.tbody,
+    tr: CustomTableComponents.tr,
+    th: CustomTableComponents.th,
+    td: CustomTableComponents.td,
 }

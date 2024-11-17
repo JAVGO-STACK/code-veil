@@ -9,8 +9,6 @@ import rehypeExtractHeadings from "@/utils/rehypeExtractHeadings";
 import rehypePrismPlus from "rehype-prism-plus";
 import remarkGfm from "remark-gfm";
 
-const remarkGfmPlugin: any = remarkGfm;
-
 export default async function Page({
   params,
 }: {
@@ -30,6 +28,9 @@ export default async function Page({
 
     const mdxSource = await serialize(content, {
       mdxOptions: {
+        remarkPlugins: [
+          remarkGfm,
+        ],
         rehypePlugins: [
           rehypeSlug,
           [rehypeExtractHeadings, { headings }],
