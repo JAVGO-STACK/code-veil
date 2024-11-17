@@ -10,7 +10,7 @@ import Link from "next/link";
 export const Blogs = ({ blogs }: { blogs: Blog[] }) => {
   const [hovered, setHovered] = useState<string | null>(null);
   return (
-    <div className="max-w-5xl mx-auto my-10">
+    <div className="max-w-5xl mx-auto">
       {blogs.map((blog, index) => (
         <motion.div
           key={blog.slug}

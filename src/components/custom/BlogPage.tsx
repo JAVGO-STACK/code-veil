@@ -26,7 +26,7 @@ export default function BlogPage({ blogs }: { blogs: Blog[] }) {
     <Container>
       <div className="flex">
         {/* 左侧导航菜单 */}
-        <div className="w-1/5 sticky top-0 h-screen overflow-y-auto border-r border-gray-200 bg-gray-50 rounded-lg shadow-md">
+        <div className="w-1/5 sticky top-0 left-0 h-screen overflow-y-auto border-r border-gray-200 bg-white dark:bg-neutral-800 rounded-r-lg shadow-lg p-4">
           <SidebarMenu
             treeData={treeData}
             searchTerm={searchTerm}
@@ -34,7 +34,7 @@ export default function BlogPage({ blogs }: { blogs: Blog[] }) {
           />
         </div>
         {/* 右侧博客列表 */}
-        <div className="w-4/5 pl-8">
+        <div className="w-4/5 pl-80 px-4 md:px-8 lg:px-16">
           <Blogs blogs={filteredBlogs} />
         </div>
       </div>
