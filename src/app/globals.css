@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 行内代码样式 */
+.inline-code {
+  @apply bg-gray-200 text-gray-800 px-1 rounded;
+}
+
+code:not(pre code) {
+  background-color: #f0f0f0;
+  padding: 0 4px;
+  border-radius: 4px;
+
+  &::before,
+  &::after {
+    content: none !important;
+  }
+}
