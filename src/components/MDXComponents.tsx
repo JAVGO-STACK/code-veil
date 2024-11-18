@@ -33,7 +33,8 @@ export const components: Record<string, React.ComponentType<any>> = {
     tr: CustomTableComponents.tr,
     th: CustomTableComponents.th,
     td: CustomTableComponents.td,
-    ul: UnorderedList,
-    ol: OrderedList,
-    li: ListItem,
+    // TODO：↓ 有 Bug，有空再修
+    // ul: UnorderedList,
+    // ol: OrderedList,
+    // li: ListItem,
 }

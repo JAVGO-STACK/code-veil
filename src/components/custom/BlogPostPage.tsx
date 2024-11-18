@@ -79,7 +79,7 @@ export default function BlogPostPage({
           <p className="text-gray-600">{blog.description}</p>
           <MDXRemote {...mdxSource} components={components} />
         </div>
-        <div className="hidden lg:block fixed top-1/3 right-5 transform -translate-y-1/2 z-40">
+        <div className="hidden lg:block fixed top-1/5 right-5 transform -translate-y-1/2 z-40">
           <div className="relative group">
             <div
               className={clsx(
