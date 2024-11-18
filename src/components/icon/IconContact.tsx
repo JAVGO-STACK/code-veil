@@ -1,5 +1,5 @@
 const IconContact = ({ className }: { className?: string }) => (
-        <svg t="1731758502293" className={className} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        <svg className={className} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
              p-id="19408" width="200" height="200">
             <path d="M69.12 929.28L222.72 960V412.16c-51.2-37.376-102.4-75.264-153.6-112.64v629.76z" fill="#3399FF"
                   p-id="19409"></path>

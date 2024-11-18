@@ -1,5 +1,5 @@
 const IconAbout = ({ className }: { className?: string }) => (
-        <svg t="1731758769013" className={className} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        <svg className={className} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
              p-id="46188" width="200" height="200">
             <path
                 d="M0 0m170.666667 0l682.666666 0q170.666667 0 170.666667 170.666667l0 682.666666q0 170.666667-170.666667 170.666667l-682.666666 0q-170.666667 0-170.666667-170.666667l0-682.666666q0-170.666667 170.666667-170.666667Z"
