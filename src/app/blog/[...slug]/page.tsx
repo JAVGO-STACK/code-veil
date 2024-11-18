@@ -15,8 +15,9 @@ export default async function Page({
   params: { slug: string[] };
 }) {
   const allBlogs = await getAllBlogs();
-  const slug = params.slug ? params.slug.join("/") : "";
-  const blog = allBlogs.find((b) => b.slug === slug);
+  const { slug } = await params;
+  const blogSlug = slug ? slug.join("/") : "";
+  const blog = allBlogs.find((b) => b.slug === blogSlug);
 
   if (blog) {
     const fileContents = fs.readFileSync(blog.filePath, "utf8");

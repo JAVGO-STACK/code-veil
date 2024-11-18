@@ -1,11 +1,21 @@
 "use client";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 
 const World = dynamic(() => import("../ui/globe").then((m) => m.World), {
     ssr: false,
 });
+
+type Arc = {
+    order: number;
+    startLat: number;
+    startLng: number;
+    endLat: number;
+    endLng: number;
+    arcAlt: number;
+    color: string;
+};
 
 export function GlobeDemo() {
     const globeConfig = {
@@ -30,53 +40,57 @@ export function GlobeDemo() {
         autoRotate: true,
         autoRotateSpeed: 0.5,
     };
+
     const colors = ["#06b6d4", "#3b82f6", "#6366f1"];
-    const sampleArcs = [
-        {
-            order: 1,
-            startLat: -19.885592,
-            startLng: -43.951191,
-            endLat: -22.9068,
-            endLng: -43.1729,
-            arcAlt: 0.1,
-            color: colors[Math.floor(Math.random() * (colors.length - 1))],
-        },
-        {
-            order: 1,
-            startLat: 28.6139,
-            startLng: 77.209,
-            endLat: 3.139,
-            endLng: 101.6869,
-            arcAlt: 0.2,
-            color: colors[Math.floor(Math.random() * (colors.length - 1))],
-        },
-        {
-            order: 1,
-            startLat: -19.885592,
-            startLng: -43.951191,
-            endLat: -1.303396,
-            endLng: 36.852443,
-            arcAlt: 0.5,
-            color: colors[Math.floor(Math.random() * (colors.length - 1))],
-        },
-        {
-            order: 2,
-            startLat: 1.3521,
-            startLng: 103.8198,
-            endLat: 35.6762,
-            endLng: 139.6503,
-            arcAlt: 0.2,
-            color: colors[Math.floor(Math.random() * (colors.length - 1))],
-        },
-        {
-            order: 2,
-            startLat: 51.5072,
-            startLng: -0.1276,
-            endLat: 3.139,
-            endLng: 101.6869,
-            arcAlt: 0.3,
-            color: colors[Math.floor(Math.random() * (colors.length - 1))],
-        },
+    const [sampleArcs, setSampleArcs] = useState<Arc[]>([]);
+
+    useEffect(() => {
+        const arcs: Arc[] = [
+            {
+                order: 1,
+                startLat: -19.885592,
+                startLng: -43.951191,
+                endLat: -22.9068,
+                endLng: -43.1729,
+                arcAlt: 0.1,
+                color: colors[Math.floor(Math.random() * colors.length)],
+            },
+            {
+                order: 1,
+                startLat: 28.6139,
+                startLng: 77.209,
+                endLat: 3.139,
+                endLng: 101.6869,
+                arcAlt: 0.2,
+                color: colors[Math.floor(Math.random() * colors.length)],
+            },
+            {
+                order: 1,
+                startLat: -19.885592,
+                startLng: -43.951191,
+                endLat: -1.303396,
+                endLng: 36.852443,
+                arcAlt: 0.5,
+                color: colors[Math.floor(Math.random() * colors.length)],
+            },
+            {
+                order: 2,
+                startLat: 1.3521,
+                startLng: 103.8198,
+                endLat: 35.6762,
+                endLng: 139.6503,
+                arcAlt: 0.2,
+                color: colors[Math.floor(Math.random() * colors.length)],
+            },
+            {
+                order: 2,
+                startLat: 51.5072,
+                startLng: -0.1276,
+                endLat: 3.139,
+                endLng: 101.6869,
+                arcAlt: 0.3,
+                color: colors[Math.floor(Math.random() * colors.length)],
+            },
         {
             order: 2,
             startLat: -15.785493,
@@ -392,12 +406,16 @@ export function GlobeDemo() {
             arcAlt: 0.3,
             color: colors[Math.floor(Math.random() * (colors.length - 1))],
         },
-    ];
+        ];
+        setSampleArcs(arcs);
+    }, []);
 
     return (
         <div className="flex flex-row items-center justify-center h-screen md:h-auto dark:bg-black bg-white relative w-full">
             <div className="max-w-7xl mx-auto w-full relative overflow-hidden h-full md:h-[35rem] px-4">
-                <World data={sampleArcs} globeConfig={globeConfig} />
+                {sampleArcs.length > 0 && (
+                    <World data={sampleArcs} globeConfig={globeConfig} />
+                )}
             </div>
         </div>
     );

@@ -91,6 +91,12 @@ export function Globe({ globeConfig, data }: WorldProps) {
         ...globeConfig,
     };
 
+    const [arcStrokeValue, setArcStrokeValue] = useState(0.3);
+    useEffect(() => {
+        const randomValue = [0.32, 0.28, 0.3][Math.floor(Math.random() * 3)];
+        setArcStrokeValue(randomValue);
+    }, []);
+
     useEffect(() => {
         if (globeRef.current) {
             _buildData();
@@ -177,9 +183,7 @@ export function Globe({ globeConfig, data }: WorldProps) {
             .arcAltitude((e) => {
                 return (e as { arcAlt: number }).arcAlt * 1;
             })
-            .arcStroke((e) => {
-                return [0.32, 0.28, 0.3][Math.round(Math.random() * 2)];
-            })
+            .arcStroke((e) => arcStrokeValue)
             .arcDashLength(defaultProps.arcLength)
             .arcDashInitialGap((e) => (e as { order: number }).order * 1)
             .arcDashGap(15)
@@ -294,11 +298,13 @@ export function hexToRgb(hex: string) {
         : null;
 }
 
-export function genRandomNumbers(min: number, max: number, count: number) {
-    const arr = [];
+export function genRandomNumbers(min: number, max: number, count: number): number[] {
+    const arr: number[] = [];
     while (arr.length < count) {
         const r = Math.floor(Math.random() * (max - min)) + min;
-        if (arr.indexOf(r) === -1) arr.push(r);
+        if (!arr.includes(r)) {
+            arr.push(r);
+        }
     }
 
     return arr;
