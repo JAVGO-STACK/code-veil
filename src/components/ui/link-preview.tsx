@@ -26,16 +26,16 @@ type LinkPreviewProps = {
     );
 
 export const LinkPreview = ({
-                                children,
-                                url,
-                                className,
-                                width = 200,
-                                height = 125,
-                                quality = 50,
-                                layout = "fixed",
-                                isStatic = false,
-                                imageSrc = "",
-                            }: LinkPreviewProps) => {
+    children,
+    url,
+    className,
+    width = 200,
+    height = 125,
+    quality = 50,
+    layout = "fixed",
+    isStatic = false,
+    imageSrc = "",
+}: LinkPreviewProps) => {
     let src;
     if (!isStatic) {
         const params = encode({

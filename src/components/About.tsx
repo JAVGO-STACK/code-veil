@@ -1,119 +1,227 @@
 "use client";
-import { Paragraph } from "@/components/Paragraph";
-import Image from "next/image";
 
-import { motion } from "framer-motion";
+import { HackathonCard } from "@/components/hackathon-card";
+import BlurFade from "@/components/magicui/blur-fade";
+import BlurFadeText from "@/components/magicui/blur-fade-text";
+import { ProjectCard } from "@/components/project-card";
+import { ResumeCard } from "@/components/resume-card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { DATA } from "@/data/resume";
+import Link from "next/link";
+import Markdown from "react-markdown";
+
+const BLUR_FADE_DELAY = 0.04;
 
 export default function About() {
-  const images = [
-    "https://images.unsplash.com/photo-1692544350322-ac70cfd63614?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1692374227159-2d3592f274c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1692005561659-cdba32d1e4a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1692445381633-7999ebc03730?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-  ];
   return (
-    <div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-10 my-10">
-        {images.map((image, index) => (
-          <motion.div
-            key={image}
-            initial={{
-              opacity: 0,
-              y: -50,
-              rotate: 0,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              rotate: index % 2 === 0 ? 3 : -3,
-            }}
-            transition={{ duration: 0.2, delay: index * 0.1 }}
-          >
-            <Image
-              src={image}
-              width={200}
-              height={400}
-              alt="about"
-              className="rounded-md object-cover transform rotate-3 shadow-xl block w-full h-40 md:h-60 hover:rotate-0 transition duration-200"
-            />
-          </motion.div>
-        ))}
-        {/* 
-        // <Image
-        //   src="https://images.unsplash.com/photo-1692544350322-ac70cfd63614?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60"
-        //   width={200}
-        //   height={400}
-        //   alt="about"
-        //   className="rounded-md object-cover transform rotate-3 shadow-xl block w-full h-40 md:h-60 hover:rotate-0 transition duration-200"
-        // />
-        // <Image
-        //   src="https://images.unsplash.com/photo-1692374227159-2d3592f274c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60"
-        //   width={200}
-        //   height={400}
-        //   alt="about"
-        //   className="rounded-md object-cover transform -rotate-3 shadow-xl block w-full h-40 md:h-60  hover:rotate-0 transition duration-200"
-        // />
-        // <Image
-        //   src="https://images.unsplash.com/photo-1692005561659-cdba32d1e4a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-        //   width={200}
-        //   height={400}
-        //   alt="about"
-        //   className="rounded-md object-cover transform rotate-3 shadow-xl block w-full h-40 md:h-60  hover:rotate-0 transition duration-200"
-        // />
-        // <Image
-        //   src="https://images.unsplash.com/photo-1692445381633-7999ebc03730?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-        //   width={200}
-        //   height={400}
-        //   alt="about"
-        //   className="rounded-md object-cover transform -rotate-3 shadow-xl block w-full h-40 md:h-60  hover:rotate-0 transition duration-200"
-        // /> */}
-      </div>
+    <div className="flex flex-col">
+      <section id="hero">
+        <div className="mx-auto w-full max-w-2xl space-y-8">
+          <div className="gap-4 flex items-center justify-between">
+            <div className="flex-1 space-y-1.5">
+              <BlurFadeText
+                delay={BLUR_FADE_DELAY}
+                className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none"
+                yOffset={8}
+                text={`Hi, I'm ${DATA.name.split(" ")[0]} 👋`}
+              />
+              <BlurFadeText
+                className="max-w-[600px] md:text-xl"
+                delay={BLUR_FADE_DELAY}
+                text={DATA.description}
+              />
+            </div>
+            <BlurFade delay={BLUR_FADE_DELAY}>
+              <Avatar className="h-28 w-28 border border-gray-300">
+                <AvatarImage alt={DATA.name} src={DATA.avatarUrl} />
+                <AvatarFallback>{DATA.initials}</AvatarFallback>
+              </Avatar>
+            </BlurFade>
+          </div>
+        </div>
+      </section>
 
-      <div className="max-w-4xl">
-        <Paragraph className=" mt-4">
-          Hey there, I&apos;m Code Veil - a passionate developer, avid writer,
-          and a connoisseur of awesome design. Welcome to my corner of the
-          digital world!
-        </Paragraph>
-        <Paragraph className=" mt-4">
-          Since the early days of my journey, I&apos;ve been captivated by the
-          art of crafting exceptional digital experiences. As a developer, I
-          thrive on turning lines of code into functional and elegant solutions.
-          My goal is to not just create software, but to build digital marvels
-          that seamlessly merge form and function.
-        </Paragraph>
+      {/* Work Experience 和 Education 背景 */}
+      <section id="work-education" className="px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12"> {/* 增加 gap-12 */}
+          {/* 工作经验 */}
+          <div className="flex flex-col gap-y-3">
+            <BlurFade delay={BLUR_FADE_DELAY * 5}>
+              <h2 className="text-xl font-bold">工作经验</h2>
+            </BlurFade>
+            {DATA.work.map((work, id) => (
+              <BlurFade
+                key={work.company}
+                delay={BLUR_FADE_DELAY * 6 + id * 0.05}
+              >
+                <ResumeCard
+                  key={work.company}
+                  logoUrl={work.logoUrl}
+                  altText={work.company}
+                  title={work.company}
+                  subtitle={work.title}
+                  href={work.href}
+                  badges={work.badges}
+                  period={`${work.start} - ${work.end ?? "至今"}`}
+                  description={work.description}
+                />
+              </BlurFade>
+            ))}
+          </div>
 
-        <Paragraph className=" mt-4">
-          But my journey doesn&apos;t stop at coding. With a heart full of words
-          and a mind brimming with ideas, I&apos;ve ventured into the realm of
-          writing. From tech articles that unravel complex concepts to creative
-          tales that ignite the imagination, I weave words to inform, entertain,
-          and inspire.
-        </Paragraph>
-        <Paragraph className=" mt-4">
-          What sets me apart is my unwavering appreciation for design. I believe
-          that aesthetics and usability go hand in hand. My eye for awesome
-          design ensures that every project I undertake not only works
-          flawlessly under the hood but also looks stunning on the surface.
-        </Paragraph>
-        <Paragraph className=" mt-4">
-          Through this website, I aim to share my insights, experiences, and
-          creations with you. Whether you&apos;re a fellow developer seeking
-          solutions, a fellow writer in search of inspiration, or simply someone
-          who appreciates the finer aspects of design, there&apos;s something
-          here for you.
-        </Paragraph>
-        <Paragraph className=" mt-4">
-          Join me on this journey of bytes and narratives, logic and creativity,
-          code and prose. Together, we can explore the boundless possibilities
-          of technology and storytelling, all while reveling in the sheer beauty
-          of thoughtful design.
-        </Paragraph>
-        <Paragraph className=" mt-4">
-          Thank you for being here, and I can&apos;t wait to embark on this
-          adventure with you.
-        </Paragraph>
-      </div>
+          {/* 教育背景 */}
+          <div className="flex flex-col gap-y-3">
+            <BlurFade delay={BLUR_FADE_DELAY * 7}>
+              <h2 className="text-xl font-bold">教育背景</h2>
+            </BlurFade>
+            {DATA.education.map((education, id) => (
+              <BlurFade
+                key={education.school}
+                delay={BLUR_FADE_DELAY * 8 + id * 0.05}
+              >
+                <ResumeCard
+                  key={education.school}
+                  href={education.href}
+                  logoUrl={education.logoUrl}
+                  altText={education.school}
+                  title={education.school}
+                  subtitle={education.degree}
+                  period={`${education.start} - ${education.end}`}
+                />
+              </BlurFade>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="px-4 py-8">
+        <BlurFade delay={BLUR_FADE_DELAY * 3}>
+          <h2 className="text-xl font-bold mb-3">关于我</h2>
+        </BlurFade>
+        <BlurFade delay={BLUR_FADE_DELAY * 4}>
+          <Markdown className="prose max-w-full text-pretty font-sans text-sm text-muted-foreground dark:prose-invert">
+            {DATA.summary}
+          </Markdown>
+        </BlurFade>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="px-4 py-8">
+        <div className="flex flex-col gap-y-3">
+          <BlurFade delay={BLUR_FADE_DELAY * 9}>
+            <h2 className="text-xl font-bold">技能</h2>
+          </BlurFade>
+          <div className="flex flex-wrap gap-1">
+            {DATA.skills.map((skill, id) => (
+              <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
+                <Badge className="bg-black text-white">{skill}</Badge> {/* 已符合预期 */}
+              </BlurFade>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-12 px-4">
+        <div className="space-y-12 w-full">
+          <BlurFade delay={BLUR_FADE_DELAY * 11}>
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  查看我的最新作品
+                </h2>
+                <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  我参与了各种项目，从简单的网站到复杂的网络应用程序。以下是我最喜欢的一些项目。
+                </p>
+              </div>
+            </div>
+          </BlurFade>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-full mx-auto"> {/* 调整为 max-w-full */}
+            {DATA.projects.map((project, id) => (
+              <BlurFade
+                key={project.title}
+                delay={BLUR_FADE_DELAY * 12 + id * 0.05}
+              >
+                <ProjectCard
+                  href={project.href}
+                  key={project.title}
+                  title={project.title}
+                  description={project.description}
+                  dates={project.dates}
+                  tags={project.technologies}
+                  image={project.image}
+                  video={project.video}
+                  links={project.links}
+                  badgeClassName="bg-black text-white"
+                />
+              </BlurFade>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Hackathons Section */}
+      <section id="hackathons" className="py-12 px-4">
+        <div className="space-y-12 w-full">
+          <BlurFade delay={BLUR_FADE_DELAY * 13}>
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  我喜欢构建
+                </h2>
+                <p className="text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  在大学期间，我参加了 {DATA.hackathons.length} 多次 Hackathon。来自全国各地的人们聚集在一起，在2-3天内构建了令人难以置信的项目。看到一群有动力和热情的人所创造的无限可能性，令我大开眼界。
+                </p>
+              </div>
+            </div>
+          </BlurFade>
+          <BlurFade delay={BLUR_FADE_DELAY * 14}>
+            <ul className="mb-4 ml-4 divide-y divide-dashed border-l">
+              {DATA.hackathons.map((project, id) => (
+                <BlurFade
+                  key={project.title + project.dates}
+                  delay={BLUR_FADE_DELAY * 15 + id * 0.05}
+                >
+                  <HackathonCard
+                    title={project.title}
+                    description={project.description}
+                    location={project.location}
+                    dates={project.dates}
+                    image={project.image}
+                    links={project.links}
+                    badgeClassName="bg-black text-white"
+                  />
+                </BlurFade>
+              ))}
+            </ul>
+          </BlurFade>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-12 px-4">
+        <div className="grid items-center justify-center gap-4 text-center md:px-6 w-full">
+          <BlurFade delay={BLUR_FADE_DELAY * 16}>
+            <div className="space-y-3">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                保持联系
+              </h2>
+              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                想聊聊吗？只需在{" "}
+                <Link
+                  href={DATA.contact.social.email.url}
+                  className="text-blue-500 hover:underline"
+                >
+                  Gmail
+                </Link>{" "}
+                上给我发送直接问题的私信，我会在有空时回复您。我将忽略所有推销信息。
+              </p>
+            </div>
+          </BlurFade>
+        </div>
+      </section>
     </div>
   );
 }

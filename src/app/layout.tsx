@@ -14,8 +14,7 @@ const inter = Inter({
 // 元数据
 export const metadata: Metadata = {
   title: "Code Veil - Developer",
-  description:
-    "Code Veil is a developer, writer and speaker. He is a digital nomad and travels around the world while working remotely.",
+  description: "Code Veil is a developer, writer and speaker. He is a digital nomad and travels around the world while working remotely.",
 };
 
 // 布局
