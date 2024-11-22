@@ -14,19 +14,31 @@ export default async function Page({
 }: {
   params: { slug: string[] };
 }) {
+  // 获取所有博客文章
   const allBlogs = await getAllBlogs();
   const { slug } = await params;
-  const blogSlug = slug ? slug.join("/") : "";
+
+  // 对 slug 数组中的每个元素进行解码
+  const decodedSlugArray = slug.map((segment) =>
+    decodeURIComponent(segment)
+  );
+  // 拼接解码后的 slug
+  const blogSlug = decodedSlugArray.join("/");
+
+  // 查找与当前路由匹配的博客文章
   const blog = allBlogs.find((b) => b.slug === blogSlug);
 
   if (blog) {
+    // 读取博客文章的内容
     const fileContents = fs.readFileSync(blog.filePath, "utf8");
+    // 使用 gray-matter 解析文章的元数据和内容
     const { content, data: meta } = await import("gray-matter").then((m) =>
       m.default(fileContents)
     );
 
     const headings: { id: string; text: string; level: number }[] = [];
 
+    // 序列化 MDX 内容
     const mdxSource = await serialize(content, {
       mdxOptions: {
         remarkPlugins: [
@@ -41,6 +53,7 @@ export default async function Page({
       },
     });
 
+    // 渲染博客文章页面
     return (
       <BlogPostPage
         blog={{ ...blog, ...meta }}
@@ -49,11 +62,14 @@ export default async function Page({
       />
     );
   } else {
+    // 如果不是文章，则尝试作为分类处理
     const categoryBlogs = allBlogs.filter((b) => b.slug.startsWith(`${slug}/`));
 
     if (categoryBlogs.length > 0) {
+      // 渲染博客分类页面
       return <BlogCategoryPage blogs={categoryBlogs} />;
     } else {
+      // 页面未找到
       notFound();
     }
   }
