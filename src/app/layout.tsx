@@ -1,4 +1,5 @@
 import { SidebarDemo } from "@/components/custom/Sidebar";
+import SidebarServer from "@/components/custom/SidebarServer";
 import "./globals.css";
 import "prismjs/themes/prism-tomorrow.css";
 import type { Metadata } from "next";
@@ -28,9 +29,9 @@ export default function RootLayout({
           "flex antialiased bg-gray-100"
         )}
       >
-        <SidebarDemo>
+        <SidebarServer>
           {children}
-        </SidebarDemo>
+        </SidebarServer>
       </body>
     </html>
   );

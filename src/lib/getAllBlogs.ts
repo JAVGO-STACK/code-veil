@@ -45,6 +45,8 @@ async function traverseDir(dir: string, slugPrefix = ""): Promise<Blog[]> {
 
       // 添加到博客列表
       blogs.push({
+        id: slug,
+        title: meta.title || "无标题",
         slug,
         filePath: fullPath,
         ...meta,

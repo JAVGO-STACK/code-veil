@@ -7,6 +7,8 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/Footer";
+import { GlobalSearch } from "@/components/GlobalSearch";
+import { Article } from "@/types/article";
 
 const IconHome = dynamic(() => import("@/components/icon/IconHome"));
 const IconAbout = dynamic(() => import("@/components/icon/IconAbout"));
@@ -17,7 +19,12 @@ const IconGithub = dynamic(() => import("@/components/icon/IconGithub"));
 const IconCSDN = dynamic(() => import("@/components/icon/IconCSDN"));
 const IconInfoQ = dynamic(() => import("@/components/icon/IconInfoQ"));
 
-export function SidebarDemo({ children }: { children: React.ReactNode }) {
+interface SidebarDemoProps {
+  children: React.ReactNode;
+  articles: Article[];
+}
+
+export function SidebarDemo({ children, articles }: SidebarDemoProps) {
   const links = useMemo(() => [
     {
       label: "Home",
@@ -128,8 +135,11 @@ export function SidebarDemo({ children }: { children: React.ReactNode }) {
         </SidebarBody>
       </Sidebar>
       {/* 渲染主内容区域 */}
-      <div className="flex flex-1">
-        <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full overflow-y-auto scrollbar-hide">
+      <div className="flex flex-1 flex-col ml-2.5">
+        {/* 顶部搜索区域 */}
+        <GlobalSearch articles={articles} />
+        {/* 底部主要内容区域 */}
+        <div className="shadow-lg p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full overflow-y-auto scrollbar-hide">
           {children}
           <Footer />
         </div>

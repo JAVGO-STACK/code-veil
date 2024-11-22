@@ -73,7 +73,7 @@ export default function BlogPostPage({
     <div className="relative w-full">
       <Link
         href="/blog"
-        className="fixed top-20 left-25 flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition-transform transform hover:-translate-y-1 z-50"
+        className="fixed top-30 left-25 flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full shadow-md hover:bg-blue-700 transition-transform transform hover:-translate-y-1 z-50"
         aria-label="返回博客列表"
       >
         <FiArrowLeft size={20} />
