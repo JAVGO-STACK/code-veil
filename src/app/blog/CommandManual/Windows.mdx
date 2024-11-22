@@ -1,0 +1,33 @@
+---
+date: "2024-11-18"
+title: "Windows"
+description: "日常开发常用的 Windows 命令手册。"
+image: ""
+tags:
+  - cmd
+  - windows
+---
+
+## 进程查杀
+
+> 注意：需要以管理员权限运行。
+
+按 `Win` + `R` 打开 `cmd`，输入以下命令：
+
+```bash
+netstat -ano | findstr :<PORT>
+```
+
+这将列出所有占用 `<PORT>` 端口的进程及其 PID（进程标识符），示例如下：
+
+```bash
+TCP    0.0.0.0:<PORT>       0.0.0.0:0              LISTENING       <PID>
+```
+
+使用以下命令关闭指定的进程：
+
+```bash
+taskkill /pid <PID> /f
+```
+
+将 `<PID>` 替换为上述命令中列出的进程标识符， `/F` 参数表示强制关闭进程。再次运行上述命令，应该会看到该端口不再被占用。
