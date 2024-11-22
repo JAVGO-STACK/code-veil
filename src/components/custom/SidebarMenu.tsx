@@ -1,3 +1,4 @@
+// 博客侧边栏组件
 "use client";
 import React, { Suspense } from "react";
 import Link from "next/link";
@@ -36,7 +37,11 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({
       <nav>
         {treeData.map((node, index) => (
           <Suspense fallback={<div>Loading...</div>} key={index}>
-            <TreeNodeComponent node={node} level={0} />
+            <TreeNodeComponent
+              node={node}
+              level={0}
+              initialExpanded={index === 0}
+            />
           </Suspense>
         ))}
       </nav>
@@ -47,10 +52,11 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({
 type TreeNodeProps = {
   node: TreeNode;
   level: number;
+  initialExpanded?: boolean;
 };
 
-const TreeNodeComponent: React.FC<TreeNodeProps> = ({ node, level }) => {
-  const [expanded, setExpanded] = React.useState(level < 1);
+const TreeNodeComponent: React.FC<TreeNodeProps> = ({ node, level, initialExpanded = false, }) => {
+  const [expanded, setExpanded] = React.useState(initialExpanded);
   const hasChildren = node.children && node.children.length > 0;
   const pathname = usePathname();
   const isActive = node.blog ? `/blog/${node.slug}` === pathname : false;

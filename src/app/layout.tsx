@@ -1,4 +1,3 @@
-// 首页布局
 import { SidebarDemo } from "@/components/custom/Sidebar";
 import "./globals.css";
 import "prismjs/themes/prism-tomorrow.css";
@@ -11,13 +10,11 @@ const inter = Inter({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-// 元数据
 export const metadata: Metadata = {
   title: "Code Veil - Developer",
   description: "Code Veil is a developer, writer and speaker. He is a digital nomad and travels around the world while working remotely.",
 };
 
-// 布局
 export default function RootLayout({
   children,
 }: {

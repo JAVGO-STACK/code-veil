@@ -23,7 +23,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography"), addVariablesForColors, require('tailwind-scrollbar'),],
+  plugins: [require("@tailwindcss/typography"), addVariablesForColors, require('tailwind-scrollbar'), require('tailwind-scrollbar-hide'),],
   variants: {
     scrollbar: ['rounded'], 
   },

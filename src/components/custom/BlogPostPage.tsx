@@ -2,11 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { Blog } from "@/types/blog";
-import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { FiArrowLeft } from "react-icons/fi";
-import { components } from "@/components/MDXComponents";
 import clsx from "clsx";
+
+const MDXRemote = dynamic(() =>
+  import("next-mdx-remote").then((mod) => mod.MDXRemote)
+);
+import { components } from "@/components/MDXComponents";
+const FiArrowLeft = dynamic(() =>
+  import("react-icons/fi").then((mod) => mod.FiArrowLeft)
+);
 
 interface Heading {
   id: string;
@@ -16,7 +22,7 @@ interface Heading {
 
 interface BlogPostPageProps {
   blog: Blog;
-  mdxSource: MDXRemoteSerializeResult;
+  mdxSource: any;
   headings: Heading[];
 }
 
@@ -115,7 +121,7 @@ export default function BlogPostPage({
                         className={clsx(
                           "block text-gray-600 dark:text-neutral-300 pl-2 hover:text-black",
                           activeId === heading.id &&
-                            "font-semibold text-blue-600 dark:text-blue-400"
+                          "font-semibold text-blue-600 dark:text-blue-400"
                         )}
                         aria-current={
                           activeId === heading.id ? "page" : undefined
@@ -130,7 +136,6 @@ export default function BlogPostPage({
             </div>
           </div>
         </div>
-        {/* 结束侧边目录组件 */}
       </div>
     </div>
   );
