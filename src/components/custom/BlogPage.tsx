@@ -31,7 +31,7 @@ export default function BlogPage({ blogs }: { blogs: Blog[] }) {
 
   return (
     <Container>
-      <div className="flex h-full">
+      <div className="flex">
         {/* Fixed Sidebar */}
         <Suspense fallback={<div>Loading Sidebar...</div>}>
           <div className="w-auto max-w-xs sticky top-0 left-0 h-full overflow-y-auto border rounded-lg border-gray-200 bg-white dark:bg-neutral-800 shadow-lg p-4">
