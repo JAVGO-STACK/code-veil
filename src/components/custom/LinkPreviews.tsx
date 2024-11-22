@@ -1,7 +1,13 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
-import { LinkPreview } from "@/components/ui/link-preview";
+import dynamic from "next/dynamic";
+
+const LinkPreview = dynamic(
+    () => import("@/components/ui/link-preview").then((m) => m.LinkPreview),
+    {
+        loading: () => <div>Loading...</div>,
+    }
+);
 
 export function LinkPreviewDemo() {
     return (

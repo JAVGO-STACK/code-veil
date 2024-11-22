@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useReducer, ChangeEvent, FormEvent } from "react";
+import React, { useReducer, ChangeEvent, FormEvent, useCallback } from "react";
 
 interface FormField {
     value: string;
@@ -69,7 +69,7 @@ const InputField: React.FC<{
     value: string;
     error: string;
     onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-}> = ({ label, type, placeholder, value, error, onChange }) => (
+}> = React.memo(({ label, type, placeholder, value, error, onChange }) => (
     <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor={label}>
             {label}
@@ -111,19 +111,18 @@ const InputField: React.FC<{
             </p>
         )}
     </div>
-);
+));
 
 export const Contact: React.FC = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const handleChange = (field: keyof FormState) => (
+    const handleChange = useCallback((field: FormFieldKey) => (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-        // @ts-ignore
-        dispatch({error: "", message: "", type: "UPDATE_FIELD", field, value: e.target.value });
-    };
+        dispatch({ type: "UPDATE_FIELD", field, value: e.target.value });
+    }, []);
 
-    const validate = (): boolean => {
+    const validate = useCallback((): boolean => {
         let isValid = true;
 
         if (!state.name.value.trim()) {
@@ -146,9 +145,9 @@ export const Contact: React.FC = () => {
         }
 
         return isValid;
-    };
+    }, [state.name.value, state.email.value, state.message.value]);
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
         if (!validate()) return;
 
@@ -164,13 +163,13 @@ export const Contact: React.FC = () => {
             });
 
             dispatch({ type: "SUBMIT_SUCCESS", message: "Your message has been sent successfully!" });
-        } catch (error) {
+        } catch {
             dispatch({
                 type: "SUBMIT_ERROR",
                 error: "There was an error submitting the form. Please try again.",
             });
         }
-    };
+    }, [validate, state.name.value, state.email.value, state.message.value]);
 
     return (
         <div className="w-full min-h-screen max-w-screen bg-white rounded-lg p-8">

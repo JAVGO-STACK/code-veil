@@ -1,8 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { FiCopy, FiCheck } from "react-icons/fi";
+import dynamic from "next/dynamic";
 import { extractText } from "@/utils/extractText";
+
+const FiCopy = dynamic(() => import("react-icons/fi").then((mod) => mod.FiCopy));
+const FiCheck = dynamic(() => import("react-icons/fi").then((mod) => mod.FiCheck));
 
 interface CodeBlockProps {
   className?: string;

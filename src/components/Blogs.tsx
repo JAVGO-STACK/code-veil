@@ -1,11 +1,17 @@
 "use client";
 import { Blog } from "@/types/blog";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
-import { Heading } from "./Heading";
-import { Paragraph } from "./Paragraph";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
+
+const Heading = dynamic(() => import("./Heading").then((m) => m.Heading), {
+  loading: () => <div>Loading...</div>,
+});
+const Paragraph = dynamic(() => import("./Paragraph").then((m) => m.Paragraph), {
+  loading: () => <div>Loading...</div>,
+});
 
 export const Blogs = ({ blogs }: { blogs: Blog[] }) => {
   const [hovered, setHovered] = useState<string | null>(null);

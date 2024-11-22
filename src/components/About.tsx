@@ -1,19 +1,28 @@
 "use client";
 
-import { HackathonCard } from "@/components/hackathon-card";
+import dynamic from "next/dynamic";
+import { memo } from "react";
 import BlurFade from "@/components/magicui/blur-fade";
 import BlurFadeText from "@/components/magicui/blur-fade-text";
-import { ProjectCard } from "@/components/project-card";
-import { ResumeCard } from "@/components/resume-card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { DATA } from "@/data/resume";
 import Link from "next/link";
 import Markdown from "react-markdown";
 
+const HackathonCard = dynamic(() => import("@/components/hackathon-card").then(m => m.HackathonCard), {
+  loading: () => <div>Loading...</div>,
+});
+const ProjectCard = dynamic(() => import("@/components/project-card").then(m => m.ProjectCard), {
+  loading: () => <div>Loading...</div>,
+});
+const ResumeCard = dynamic(() => import("@/components/resume-card").then(m => m.ResumeCard), {
+  loading: () => <div>Loading...</div>,
+});
+
 const BLUR_FADE_DELAY = 0.04;
 
-export default function About() {
+const About = memo(() => {
   return (
     <div className="flex flex-col">
       <section id="hero">
@@ -42,21 +51,15 @@ export default function About() {
         </div>
       </section>
 
-      {/* Work Experience 和 Education 背景 */}
       <section id="work-education" className="px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12"> {/* 增加 gap-12 */}
-          {/* 工作经验 */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="flex flex-col gap-y-3">
             <BlurFade delay={BLUR_FADE_DELAY * 5}>
               <h2 className="text-xl font-bold">工作经验</h2>
             </BlurFade>
             {DATA.work.map((work, id) => (
-              <BlurFade
-                key={work.company}
-                delay={BLUR_FADE_DELAY * 6 + id * 0.05}
-              >
+              <BlurFade key={work.company} delay={BLUR_FADE_DELAY * 6 + id * 0.05}>
                 <ResumeCard
-                  key={work.company}
                   logoUrl={work.logoUrl}
                   altText={work.company}
                   title={work.company}
@@ -70,18 +73,13 @@ export default function About() {
             ))}
           </div>
 
-          {/* 教育背景 */}
           <div className="flex flex-col gap-y-3">
             <BlurFade delay={BLUR_FADE_DELAY * 7}>
               <h2 className="text-xl font-bold">教育背景</h2>
             </BlurFade>
             {DATA.education.map((education, id) => (
-              <BlurFade
-                key={education.school}
-                delay={BLUR_FADE_DELAY * 8 + id * 0.05}
-              >
+              <BlurFade key={education.school} delay={BLUR_FADE_DELAY * 8 + id * 0.05}>
                 <ResumeCard
-                  key={education.school}
                   href={education.href}
                   logoUrl={education.logoUrl}
                   altText={education.school}
@@ -95,7 +93,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* About Section */}
       <section id="about" className="px-4 py-8">
         <BlurFade delay={BLUR_FADE_DELAY * 3}>
           <h2 className="text-xl font-bold mb-3">关于我</h2>
@@ -107,7 +104,6 @@ export default function About() {
         </BlurFade>
       </section>
 
-      {/* Skills Section */}
       <section id="skills" className="px-4 py-8">
         <div className="flex flex-col gap-y-3">
           <BlurFade delay={BLUR_FADE_DELAY * 9}>
@@ -116,14 +112,13 @@ export default function About() {
           <div className="flex flex-wrap gap-1">
             {DATA.skills.map((skill, id) => (
               <BlurFade key={skill} delay={BLUR_FADE_DELAY * 10 + id * 0.05}>
-                <Badge className="bg-black text-white">{skill}</Badge> {/* 已符合预期 */}
+                <Badge className="bg-black text-white">{skill}</Badge>
               </BlurFade>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Projects Section */}
       <section id="projects" className="py-12 px-4">
         <div className="space-y-12 w-full">
           <BlurFade delay={BLUR_FADE_DELAY * 11}>
@@ -138,15 +133,11 @@ export default function About() {
               </div>
             </div>
           </BlurFade>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-full mx-auto"> {/* 调整为 max-w-full */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-full mx-auto">
             {DATA.projects.map((project, id) => (
-              <BlurFade
-                key={project.title}
-                delay={BLUR_FADE_DELAY * 12 + id * 0.05}
-              >
+              <BlurFade key={project.title} delay={BLUR_FADE_DELAY * 12 + id * 0.05}>
                 <ProjectCard
                   href={project.href}
-                  key={project.title}
                   title={project.title}
                   description={project.description}
                   dates={project.dates}
@@ -162,7 +153,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* Hackathons Section */}
       <section id="hackathons" className="py-12 px-4">
         <div className="space-y-12 w-full">
           <BlurFade delay={BLUR_FADE_DELAY * 13}>
@@ -180,27 +170,22 @@ export default function About() {
           <BlurFade delay={BLUR_FADE_DELAY * 14}>
             <ul className="mb-4 ml-4 divide-y divide-dashed border-l">
               {DATA.hackathons.map((project, id) => (
-                <BlurFade
+                <HackathonCard
                   key={project.title + project.dates}
-                  delay={BLUR_FADE_DELAY * 15 + id * 0.05}
-                >
-                  <HackathonCard
-                    title={project.title}
-                    description={project.description}
-                    location={project.location}
-                    dates={project.dates}
-                    image={project.image}
-                    links={project.links}
-                    badgeClassName="bg-black text-white"
-                  />
-                </BlurFade>
+                  title={project.title}
+                  description={project.description}
+                  location={project.location}
+                  dates={project.dates}
+                  image={project.image}
+                  links={project.links}
+                  badgeClassName="bg-black text-white"
+                />
               ))}
             </ul>
           </BlurFade>
         </div>
       </section>
 
-      {/* Contact Section */}
       <section id="contact" className="py-12 px-4">
         <div className="grid items-center justify-center gap-4 text-center md:px-6 w-full">
           <BlurFade delay={BLUR_FADE_DELAY * 16}>
@@ -224,4 +209,6 @@ export default function About() {
       </section>
     </div>
   );
-}
+});
+
+export default About;

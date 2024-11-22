@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { Sidebar, SidebarBody, SidebarLink } from "../ui/sidebar";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -7,20 +8,17 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/Footer";
 
-import IconHome from "@/components/icon/IconHome";
-import IconAbout from "@/components/icon/IconAbout";
-import IconProject from "@/components/icon/IconProject";
-import IconArticles from "@/components/icon/IconArticles";
-import IconContact from "@/components/icon/IconContact";
+const IconHome = dynamic(() => import("@/components/icon/IconHome"));
+const IconAbout = dynamic(() => import("@/components/icon/IconAbout"));
+const IconProject = dynamic(() => import("@/components/icon/IconProject"));
+const IconArticles = dynamic(() => import("@/components/icon/IconArticles"));
+const IconContact = dynamic(() => import("@/components/icon/IconContact"));
+const IconGithub = dynamic(() => import("@/components/icon/IconGithub"));
+const IconCSDN = dynamic(() => import("@/components/icon/IconCSDN"));
+const IconInfoQ = dynamic(() => import("@/components/icon/IconInfoQ"));
 
-import IconGithub from "@/components/icon/IconGithub";
-import IconCSDN from "@/components/icon/IconCSDN";
-import IconInfoQ from "@/components/icon/IconInfoQ";
-
-// 定义侧边栏组件
 export function SidebarDemo({ children }: { children: React.ReactNode }) {
-  // 定义侧边栏链接数组
-  const links = [
+  const links = useMemo(() => [
     {
       label: "Home",
       href: "/",
@@ -56,10 +54,9 @@ export function SidebarDemo({ children }: { children: React.ReactNode }) {
         <IconContact className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
-  ];
+  ], []);
 
-  // 定义社交链接数组
-  const socialLinks = [
+  const socialLinks = useMemo(() => [
     {
       label: "GitHub",
       href: "https://github.com/JAVGO-STACK",
@@ -81,10 +78,8 @@ export function SidebarDemo({ children }: { children: React.ReactNode }) {
         <IconInfoQ className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
-    // Add more social links as needed
-  ];
+  ], []);
 
-   // 状态管理，控制侧边栏的打开和关闭
   const [open, setOpen] = useState(false);
 
   return (
@@ -136,7 +131,7 @@ export function SidebarDemo({ children }: { children: React.ReactNode }) {
       <div className="flex flex-1">
         <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full overflow-y-auto">
           {children}
-          <Footer/>
+          <Footer />
         </div>
       </div>
     </div>
@@ -144,7 +139,7 @@ export function SidebarDemo({ children }: { children: React.ReactNode }) {
 }
 
 // 定义完整的 Logo 组件
-export const Logo = () => {
+export const Logo = React.memo(() => {
   return (
     <Link
       href="#"
@@ -166,10 +161,10 @@ export const Logo = () => {
       </motion.span>
     </Link>
   );
-};
+});
 
 // 定义收缩状态的 Logo 组件
-export const LogoIcon = () => {
+export const LogoIcon = React.memo(() => {
   return (
     <Link
       href="#"
@@ -184,4 +179,4 @@ export const LogoIcon = () => {
       />
     </Link>
   );
-};
+});

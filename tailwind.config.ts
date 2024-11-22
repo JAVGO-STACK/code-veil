@@ -23,7 +23,10 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("@tailwindcss/typography"), addVariablesForColors],
+  plugins: [require("@tailwindcss/typography"), addVariablesForColors, require('tailwind-scrollbar'),],
+  variants: {
+    scrollbar: ['rounded'], 
+  },
 } satisfies Config;
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).

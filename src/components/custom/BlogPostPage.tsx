@@ -25,7 +25,6 @@ export default function BlogPostPage({
   mdxSource,
   headings,
 }: BlogPostPageProps) {
-
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -50,17 +49,17 @@ export default function BlogPostPage({
   }, [headings]);
 
   const getIndentClass = (level: number) => {
-    switch(level) {
+    switch (level) {
       case 2:
-        return 'ml-4';
+        return "ml-4";
       case 3:
-        return 'ml-8';
+        return "ml-8";
       case 4:
-        return 'ml-12';
+        return "ml-12";
       case 5:
-        return 'ml-16';
+        return "ml-16";
       default:
-        return 'ml-0';
+        return "ml-0";
     }
   };
 
@@ -79,39 +78,10 @@ export default function BlogPostPage({
           <p className="text-gray-600">{blog.description}</p>
           <MDXRemote {...mdxSource} components={components} />
         </div>
+        {/* 侧边目录组件 */}
         <div className="hidden lg:block fixed top-1/5 right-5 transform -translate-y-1/2 z-40">
-          <div className="relative group">
-            <div
-              className={clsx(
-                "absolute top-0 right-full mr-2 bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-xl max-w-xs w-64 max-h-[80vh] overflow-y-auto transition-all duration-300 ease-in-out",
-                "opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0"
-              )}
-            >
-              <h2 className="text-lg font-bold mb-4 text-center">目录</h2>
-              <ul className="space-y-2">
-                {headings.map((heading) => (
-                  <li
-                    key={heading.id}
-                    className={clsx(
-                      getIndentClass(heading.level),
-                      "hover:bg-gray-200 dark:hover:bg-neutral-700 rounded transition"
-                    )}
-                  >
-                    <a
-                      href={`#${heading.id}`}
-                      className={clsx(
-                        "block text-gray-600 dark:text-neutral-300 pl-2 hover:text-black",
-                        activeId === heading.id && "font-semibold text-blue-600 dark:text-blue-400"
-                      )}
-                      aria-current={activeId === heading.id ? "page" : undefined}
-                    >
-                      {heading.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex flex-col items-center space-y-2 cursor-pointer p-2">
+          <div className="relative">
+            <div className="flex flex-col items-center space-y-2 cursor-pointer p-2 group">
               {[...Array(8)].map((_, index) => (
                 <div
                   key={index}
@@ -123,9 +93,44 @@ export default function BlogPostPage({
                   )}
                 />
               ))}
+              <div
+                className={clsx(
+                  "absolute top-0 right-full bg-white dark:bg-neutral-800 p-4 rounded-lg shadow-xl max-w-xs w-64 max-h-[80vh] overflow-y-auto transition-all duration-300 ease-in-out",
+                  "opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 pointer-events-none group-hover:pointer-events-auto",
+                  "scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 scrollbar-thumb-rounded"
+                )}
+              >
+                <h2 className="text-lg font-bold mb-4 text-center">目录</h2>
+                <ul className="space-y-2">
+                  {headings.map((heading) => (
+                    <li
+                      key={heading.id}
+                      className={clsx(
+                        getIndentClass(heading.level),
+                        "hover:bg-gray-200 dark:hover:bg-neutral-700 rounded transition"
+                      )}
+                    >
+                      <a
+                        href={`#${heading.id}`}
+                        className={clsx(
+                          "block text-gray-600 dark:text-neutral-300 pl-2 hover:text-black",
+                          activeId === heading.id &&
+                            "font-semibold text-blue-600 dark:text-blue-400"
+                        )}
+                        aria-current={
+                          activeId === heading.id ? "page" : undefined
+                        }
+                      >
+                        {heading.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
+        {/* 结束侧边目录组件 */}
       </div>
     </div>
   );

@@ -1,10 +1,17 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import Link from "next/link";
 import { TreeNode } from "@/types/treeNode";
 import { usePathname } from "next/navigation";
-import { FiChevronRight, FiChevronDown } from "react-icons/fi";
+import dynamic from "next/dynamic";
 import clsx from "clsx";
+
+const FiChevronRight = dynamic(() =>
+  import("react-icons/fi").then((mod) => mod.FiChevronRight)
+);
+const FiChevronDown = dynamic(() =>
+  import("react-icons/fi").then((mod) => mod.FiChevronDown)
+);
 
 type SidebarMenuProps = {
   treeData: TreeNode[];
@@ -28,7 +35,9 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({
       />
       <nav>
         {treeData.map((node, index) => (
-          <TreeNodeComponent key={index} node={node} level={0} />
+          <Suspense fallback={<div>Loading...</div>} key={index}>
+            <TreeNodeComponent node={node} level={0} />
+          </Suspense>
         ))}
       </nav>
     </div>
@@ -41,7 +50,7 @@ type TreeNodeProps = {
 };
 
 const TreeNodeComponent: React.FC<TreeNodeProps> = ({ node, level }) => {
-  const [expanded, setExpanded] = React.useState(level < 1); // 默认仅展开第一层
+  const [expanded, setExpanded] = React.useState(level < 1);
   const hasChildren = node.children && node.children.length > 0;
   const pathname = usePathname();
   const isActive = node.blog ? `/blog/${node.slug}` === pathname : false;
@@ -60,19 +69,19 @@ const TreeNodeComponent: React.FC<TreeNodeProps> = ({ node, level }) => {
         }}
       >
         {hasChildren ? (
-          expanded ? (
-            <FiChevronDown className="mr-2" />
-          ) : (
-            <FiChevronRight className="mr-2" />
-          )
+          <Suspense fallback={<div className="mr-2">→</div>}>
+            {expanded ? (
+              <FiChevronDown className="mr-2" />
+            ) : (
+              <FiChevronRight className="mr-2" />
+            )}
+          </Suspense>
         ) : (
           <span className="w-5 mr-2"></span>
         )}
         {node.blog ? (
           <Link href={`/blog/${node.slug}`}>
-            <span className="text-sm font-medium">
-              {node.title}
-            </span>
+            <span className="text-sm font-medium">{node.title}</span>
           </Link>
         ) : (
           <span className="text-sm font-semibold">{node.name}</span>
@@ -81,11 +90,9 @@ const TreeNodeComponent: React.FC<TreeNodeProps> = ({ node, level }) => {
       {hasChildren && expanded && (
         <div className="ml-4">
           {node.children.map((childNode, index) => (
-            <TreeNodeComponent
-              key={index}
-              node={childNode}
-              level={level + 1}
-            />
+            <Suspense fallback={<div>Loading...</div>} key={index}>
+              <TreeNodeComponent node={childNode} level={level + 1} />
+            </Suspense>
           ))}
         </div>
       )}
