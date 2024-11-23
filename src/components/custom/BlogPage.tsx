@@ -8,6 +8,7 @@ import { Blog } from "@/types/blog";
 const Blogs = lazy(() =>
   import("@/components/Blogs").then((module) => ({ default: module.Blogs }))
 );
+
 const SidebarMenu = lazy(() =>
   import("@/components/custom/SidebarMenu").then((module) => ({
     default: module.SidebarMenu,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { extractText } from "@/utils/extractText";
 
@@ -14,6 +14,8 @@ interface CodeBlockProps {
 
 const CodeBlock: React.FC<CodeBlockProps> = ({ className, children }) => {
   const [isCopied, setIsCopied] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const language = className ? className.replace(/language-/, "") : "";
   const code = extractText(children);
 
@@ -21,11 +23,19 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ className, children }) => {
     try {
       await navigator.clipboard.writeText(code.trim());
       setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
+      timeoutRef.current = setTimeout(() => setIsCopied(false), 2000);
     } catch (err) {
       console.error("复制失败！", err);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="relative">
